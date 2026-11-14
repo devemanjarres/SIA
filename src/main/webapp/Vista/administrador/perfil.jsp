@@ -49,13 +49,13 @@
 
             <p class="menu-caption">MENÚ PRINCIPAL</p>
 
-            <a href="<%= request.getContextPath() %>/Vista/dashboard.jsp"
+            <a href="<%= request.getContextPath() %>/administrador/index.jsp"
                class="menu-link">
                 <span class="menu-icon">⌂</span>
                 Inicio
             </a>
 
-            <a href="<%= request.getContextPath() %>/Vista/perfil.jsp"
+            <a href="<%= request.getContextPath() %>/administrador/perfil.jsp"
                class="menu-link active">
                 <span class="menu-icon">◉</span>
                 Mi perfil
