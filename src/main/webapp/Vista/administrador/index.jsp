@@ -72,7 +72,7 @@
 
             </a>
 
-            <a class="menu-link" href="#">
+            <a class="menu-link" href="${pageContext.request.contextPath}/Vista/administrador/gestion_usuarios.jsp">
                 <span class="menu-icon">♧</span>
                 <span>Gestión de usuarios</span>
             </a>

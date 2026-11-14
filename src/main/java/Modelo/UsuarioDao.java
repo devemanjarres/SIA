@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -62,5 +64,67 @@ public class UsuarioDao {
         }
         return result;
     }
+   
+    public List<Usuario> listarUsuarios() {
+
+    List<Usuario> lista = new ArrayList<>();
+
+    String sql = "SELECT id, nombre, usuario, correo, rol, estado "
+               + "FROM usuarios ORDER BY id DESC";
+
+    try (
+        Connection conn = ConexionDao.ObtenerConexion();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery()
+    ) {
+
+        while (rs.next()) {
+
+            Usuario user = new Usuario();
+
+            user.setId(rs.getInt("id"));
+            user.setNombre(rs.getString("nombre"));
+            user.setUsuario(rs.getString("usuario"));
+            user.setCorreo(rs.getString("correo"));
+            user.setRol(rs.getInt("rol"));
+
+            lista.add(user);
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al listar usuarios: " + e.getMessage());
+
+    } catch (ClassNotFoundException e) {
+        System.err.println("Error de conexión: " + e.getMessage());
+    }
+
+    return lista;
+}
+public int actualizarUsuario(Usuario user) {
+
+    int resultado = 0;
+
+    String sql = "UPDATE usuarios SET nombre = ?, usuario = ?, correo = ?, rol = ? WHERE id = ?";
+
+    try (Connection conn = ConexionDao.ObtenerConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        pstmt.setString(1, user.getNombre());
+        pstmt.setString(2, user.getUsuario());
+        pstmt.setString(3, user.getCorreo());
+        pstmt.setInt(4, user.getRol());
+        pstmt.setInt(5, user.getId());
+
+        resultado = pstmt.executeUpdate();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+
+    return resultado;
+}
+
     
 }

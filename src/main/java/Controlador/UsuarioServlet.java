@@ -34,6 +34,12 @@ private final UsuarioDao usuarioDao = new UsuarioDao();
             switch(accion){
                 case "nuevacuenta":
                     NuevaCuentaUsuario(request,response);
+                break;
+                case "listar":
+                    listarUsuarios(request,response);
+                case "actualizar":
+                     actualizarUsuario(request, response);
+                break;
         }
     }
 
@@ -89,6 +95,38 @@ private final UsuarioDao usuarioDao = new UsuarioDao();
         }else{
             response.sendRedirect(request.getContextPath()+ "/Public/web/register.jsp?error=registro");
         }
+    }
+
+    private void listarUsuarios(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Usuario usuario = new Usuario();
+
+    usuario.setId(Integer.parseInt(request.getParameter("id")));
+    usuario.setNombre(request.getParameter("nombre"));
+    usuario.setUsuario(request.getParameter("usuario"));
+    usuario.setCorreo(request.getParameter("correo"));
+    usuario.setRol(Integer.parseInt(request.getParameter("rol")));
+
+    int resultado = usuarioDao.actualizarUsuario(usuario);
+
+    response.sendRedirect(request.getContextPath()
+            + "/UsuarioServlet?accion=listar&mensaje="
+            + (resultado > 0 ? "actualizado" : "error"));
+    }
+
+    private void actualizarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
+         Usuario usuario = new Usuario();
+
+    usuario.setId(Integer.parseInt(request.getParameter("id")));
+    usuario.setNombre(request.getParameter("nombre"));
+    usuario.setUsuario(request.getParameter("usuario"));
+    usuario.setCorreo(request.getParameter("correo"));
+    usuario.setRol(Integer.parseInt(request.getParameter("rol")));
+
+    int resultado = usuarioDao.actualizarUsuario(usuario);
+
+    response.sendRedirect(request.getContextPath()
+            + "/UsuarioServlet?accion=listar&mensaje="
+            + (resultado > 0 ? "actualizado" : "error"));
     }
 
 }

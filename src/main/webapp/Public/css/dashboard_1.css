@@ -928,3 +928,169 @@ h1 {
         width: 100%;
     }
 }
+
+/* =========================================
+   GESTIÓN DE USUARIOS SIA
+========================================= */
+
+.users-welcome {
+    padding: 24px 27px;
+    margin-bottom: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.users-welcome span {
+    color: var(--primary);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.users-welcome h2 {
+    margin: 8px 0;
+    font-size: 23px;
+}
+
+.users-welcome p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.users-panel {
+    min-width: 0;
+}
+
+.users-table {
+    min-width: 1050px;
+}
+
+.users-table th,
+.users-table td {
+    padding: 13px 9px;
+    vertical-align: middle;
+}
+
+.user-input,
+.user-select {
+    width: 100%;
+    min-width: 105px;
+    min-height: 36px;
+    padding: 7px 9px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.user-input:focus,
+.user-select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.password-hidden {
+    color: #718096;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.password-note {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 0;
+}
+
+.user-status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.active-status {
+    background: #e6f7ef;
+    color: #16845b;
+}
+
+.inactive-status {
+    background: #feecec;
+    color: #c53030;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.user-actions form {
+    margin: 0;
+}
+
+.user-action {
+    padding: 8px 10px;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.save-action {
+    background: #eaf2ff;
+    color: var(--primary-dark);
+}
+
+.disable-action {
+    background: #feecec;
+    color: #c53030;
+}
+
+.enable-action {
+    background: #e6f7ef;
+    color: #16845b;
+}
+
+.user-action:hover {
+    filter: brightness(.96);
+}
+
+.empty-users {
+    padding: 30px !important;
+    color: var(--muted) !important;
+    text-align: center;
+}
+
+.users-footer {
+    margin: 15px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.users-message {
+    padding: 13px 16px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.success-message {
+    background: #e6f7ef;
+    color: #16845b;
+}
+
+.error-message {
+    background: #feecec;
+    color: #c53030;
+}
