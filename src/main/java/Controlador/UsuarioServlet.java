@@ -97,20 +97,13 @@ private final UsuarioDao usuarioDao = new UsuarioDao();
         }
     }
 
-    private void listarUsuarios(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Usuario usuario = new Usuario();
+    private void listarUsuarios(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+      
+        request.setAttribute("usuarios", usuarioDao.listarUsuarios());
 
-    usuario.setId(Integer.parseInt(request.getParameter("id")));
-    usuario.setNombre(request.getParameter("nombre"));
-    usuario.setUsuario(request.getParameter("usuario"));
-    usuario.setCorreo(request.getParameter("correo"));
-    usuario.setRol(Integer.parseInt(request.getParameter("rol")));
-
-    int resultado = usuarioDao.actualizarUsuario(usuario);
-
-    response.sendRedirect(request.getContextPath()
-            + "/UsuarioServlet?accion=listar&mensaje="
-            + (resultado > 0 ? "actualizado" : "error"));
+        request.getRequestDispatcher(
+                "/Vista/administrador/gestion_usuarios.jsp")
+                .forward(request, response);
     }
 
     private void actualizarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
