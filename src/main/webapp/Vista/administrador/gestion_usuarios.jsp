@@ -1,9 +1,3 @@
-<%-- 
-    Document   : gestion_usuarios
-    Created on : Nov 14, 2026, 9:16:48 AM
-    Author     : Administrator
---%>
-
 
 <%@page import="Modelo.Usuario"%>
 <%@page import="java.util.List"%>
@@ -13,9 +7,7 @@
     Usuario administrador = (Usuario) session.getAttribute("usuario");
 
     if (administrador == null || administrador.getRol() != 1) {
-        response.sendRedirect(
-            request.getContextPath() + "/index.jsp?error=acceso"
-        );
+        response.sendRedirect(request.getContextPath() + "/index.jsp?error=acceso");
         return;
     }
 
@@ -35,6 +27,55 @@
 
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/Public/css/dashboard_1.css">
+
+    <style>
+        /* PAGINACIÓN */
+        .users-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin: 24px 0 10px;
+        }
+
+        .page-button {
+            min-width: 36px;
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid #e8edf4;
+            border-radius: 7px;
+            background: #ffffff;
+            color: #172033;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .page-button:hover {
+            background: #eff6ff;
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .page-button.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+        }
+
+        .page-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            text-align: center;
+            color: #718096;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+    </style>
 </head>
 
 <body>
@@ -68,7 +109,7 @@
                 Mi perfil
             </a>
 
-            <a href="${pageContext.request.contextPath}/administrador/gestion_usuarios.jsp"
+            <a href="${pageContext.request.contextPath}/UsuarioServlet?accion=listar"
                class="menu-link active">
                 <span class="menu-icon">♙</span>
                 Gestión de usuarios
@@ -124,18 +165,25 @@
             </div>
         </section>
 
+        <!-- MENSAJES -->
         <% if ("actualizado".equals(mensaje)) { %>
+
             <div class="users-message success-message">
                 Usuario actualizado correctamente.
             </div>
+
         <% } else if ("estado".equals(mensaje)) { %>
+
             <div class="users-message success-message">
                 Estado del usuario actualizado correctamente.
             </div>
+
         <% } else if ("error".equals(mensaje)) { %>
+
             <div class="users-message error-message">
                 No fue posible realizar la operación.
             </div>
+
         <% } %>
 
         <section class="panel users-panel">
@@ -171,133 +219,147 @@
 
                         <% for (Usuario user : usuarios) { %>
 
-                            <tr>
+                            <tr class="user-row">
 
-                                <form action="${pageContext.request.contextPath}/GestionUsuariosServlet"
-                                      method="POST">
+                                <td>
+                                    <input class="user-input"
+                                           type="text"
+                                           name="nombre"
+                                           form="editar-<%= user.getId() %>"
+                                           value="<%= user.getNombre() %>"
+                                           required>
+                                </td>
 
-                                    <input type="hidden"
-                                           name="accion"
-                                           value="actualizar">
+                                <td>
+                                    <input class="user-input"
+                                           type="text"
+                                           name="usuario"
+                                           form="editar-<%= user.getId() %>"
+                                           value="<%= user.getUsuario() %>"
+                                           required>
+                                </td>
 
-                                    <input type="hidden"
-                                           name="id"
-                                           value="<%= user.getId() %>">
+                                <td>
+                                    <input class="user-input"
+                                           type="email"
+                                           name="correo"
+                                           form="editar-<%= user.getId() %>"
+                                           value="<%= user.getCorreo() %>"
+                                           required>
+                                </td>
 
-                                    <td>
-                                        <input class="user-input"
-                                               type="text"
-                                               name="nombre"
-                                               value="<%= user.getNombre() %>"
-                                               required>
-                                    </td>
+                                <td>
+                                    <span class="password-hidden">
+                                        ••••••••
+                                    </span>
+                                    <small class="password-note">
+                                        No visible
+                                    </small>
+                                </td>
 
-                                    <td>
-                                        <input class="user-input"
-                                               type="text"
-                                               name="usuario"
-                                               value="<%= user.getUsuario() %>"
-                                               required>
-                                    </td>
+                                <td>
+                                    <select name="rol"
+                                            class="user-select"
+                                            form="editar-<%= user.getId() %>">
 
-                                    <td>
-                                        <input class="user-input"
-                                               type="email"
-                                               name="correo"
-                                               value="<%= user.getCorreo() %>"
-                                               required>
-                                    </td>
+                                        <option value="1"
+                                            <%= user.getRol() == 1 ? "selected" : "" %>>
+                                            Administrador
+                                        </option>
 
-                                    <td>
-                                        <span class="password-hidden">
-                                            ••••••••
+                                        <option value="2"
+                                            <%= user.getRol() == 2 ? "selected" : "" %>>
+                                            Estudiante
+                                        </option>
+
+                                        <option value="3"
+                                            <%= user.getRol() == 3 ? "selected" : "" %>>
+                                            Docente
+                                        </option>
+
+                                        <option value="4"
+                                            <%= user.getRol() == 4 ? "selected" : "" %>>
+                                            Funcionario
+                                        </option>
+
+                                    </select>
+                                </td>
+
+                                <td>
+
+                                    <% if (user.getEstado() == 1) { %>
+
+                                        <span class="user-status active-status">
+                                            Activo
                                         </span>
-                                        <small class="password-note">
-                                            No visible
-                                        </small>
-                                    </td>
 
-                                    <td>
-                                        <select name="rol" class="user-select">
+                                    <% } else { %>
 
-                                            <option value="1"
-                                                <%= user.getRol() == 1 ? "selected" : "" %>>
-                                                Administrador
-                                            </option>
+                                        <span class="user-status inactive-status">
+                                            Inactivo
+                                        </span>
 
-                                            <option value="2"
-                                                <%= user.getRol() == 2 ? "selected" : "" %>>
-                                                Estudiante
-                                            </option>
+                                    <% } %>
 
-                                            <option value="3"
-                                                <%= user.getRol() == 3 ? "selected" : "" %>>
-                                                Docente
-                                            </option>
+                                </td>
 
-                                            <option value="4"
-                                                <%= user.getRol() == 4 ? "selected" : "" %>>
-                                                Funcionario
-                                            </option>
+                                <td class="user-actions">
 
-                                        </select>
-                                    </td>
+                                    <!-- FORMULARIO PARA ACTUALIZAR -->
+                                    <form id="editar-<%= user.getId() %>"
+                                          action="${pageContext.request.contextPath}/UsuarioServlet"
+                                          method="POST">
 
-                                    <td>
-                                        <% if (user.getEstado() == 1) { %>
-                                            <span class="user-status active-status">
-                                                Activo
-                                            </span>
-                                        <% } else { %>
-                                            <span class="user-status inactive-status">
-                                                Inactivo
-                                            </span>
-                                        <% } %>
-                                    </td>
+                                        <input type="hidden"
+                                               name="accion"
+                                               value="actualizar">
 
-                                    <td class="user-actions">
+                                        <input type="hidden"
+                                               name="id"
+                                               value="<%= user.getId() %>">
 
                                         <button type="submit"
                                                 class="user-action save-action">
                                             Guardar
                                         </button>
 
-                                </form>
+                                    </form>
 
-                                        <form action="${pageContext.request.contextPath}/GestionUsuariosServlet"
-                                              method="POST">
+                                    <!-- FORMULARIO PARA CAMBIAR ESTADO -->
+                                    <form action="${pageContext.request.contextPath}/UsuarioServlet"
+                                          method="POST">
 
-                                            <input type="hidden"
-                                                   name="accion"
-                                                   value="cambiarEstado">
+                                        <input type="hidden"
+                                               name="accion"
+                                               value="cambiarEstado">
 
-                                            <input type="hidden"
-                                                   name="id"
-                                                   value="<%= user.getId() %>">
+                                        <input type="hidden"
+                                               name="id"
+                                               value="<%= user.getId() %>">
 
-                                            <input type="hidden"
-                                                   name="estado"
-                                                   value="<%= user.getEstado() == 1 ? 0 : 1 %>">
+                                        <input type="hidden"
+                                               name="estado"
+                                               value="<%= user.getEstado() == 1 ? 0 : 1 %>">
 
-                                            <% if (user.getEstado() == 1) { %>
+                                        <% if (user.getEstado() == 1) { %>
 
-                                                <button type="submit"
-                                                        class="user-action disable-action">
-                                                    Inhabilitar
-                                                </button>
+                                            <button type="submit"
+                                                    class="user-action disable-action">
+                                                Inhabilitar
+                                            </button>
 
-                                            <% } else { %>
+                                        <% } else { %>
 
-                                                <button type="submit"
-                                                        class="user-action enable-action">
-                                                    Activar
-                                                </button>
+                                            <button type="submit"
+                                                    class="user-action enable-action">
+                                                Activar
+                                            </button>
 
-                                            <% } %>
+                                        <% } %>
 
-                                        </form>
+                                    </form>
 
-                                    </td>
+                                </td>
 
                             </tr>
 
@@ -319,6 +381,11 @@
 
             </div>
 
+            <!-- NAVEGACIÓN DE PÁGINAS -->
+            <div id="usersPagination" class="users-pagination"></div>
+
+            <div id="paginationInfo" class="pagination-info"></div>
+
             <p class="users-footer">
                 La contraseña no se muestra ni se recupera desde esta pantalla.
             </p>
@@ -333,6 +400,106 @@
     </main>
 
 </div>
+
+<!-- SCRIPT DE PAGINACIÓN -->
+<script>
+
+    const filasPorPagina = 10;
+    let paginaActual = 1;
+
+    const filas = document.querySelectorAll(".user-row");
+
+    const totalUsuarios = filas.length;
+    const totalPaginas = Math.ceil(totalUsuarios / filasPorPagina);
+
+    const contenedorPaginas = document.getElementById("usersPagination");
+    const informacion = document.getElementById("paginationInfo");
+
+    function mostrarPagina(pagina) {
+
+        paginaActual = pagina;
+
+        const inicio = (pagina - 1) * filasPorPagina;
+        const fin = inicio + filasPorPagina;
+
+        filas.forEach((fila, indice) => {
+
+            if (indice >= inicio && indice < fin) {
+                fila.style.display = "";
+            } else {
+                fila.style.display = "none";
+            }
+
+        });
+
+        crearBotones();
+
+        const primerUsuario = totalUsuarios === 0 ? 0 : inicio + 1;
+        const ultimoUsuario = Math.min(fin, totalUsuarios);
+
+        informacion.textContent =
+            "Mostrando " + primerUsuario + " - " +
+            ultimoUsuario + " de " + totalUsuarios + " usuarios";
+    }
+
+    function crearBotones() {
+
+        contenedorPaginas.innerHTML = "";
+
+        if (totalPaginas <= 1) {
+            return;
+        }
+
+        // BOTÓN ANTERIOR
+        const anterior = document.createElement("button");
+
+        anterior.textContent = "Anterior";
+        anterior.className = "page-button";
+        anterior.disabled = paginaActual === 1;
+
+        anterior.onclick = function () {
+            mostrarPagina(paginaActual - 1);
+        };
+
+        contenedorPaginas.appendChild(anterior);
+
+        // NÚMEROS DE PÁGINA
+        for (let i = 1; i <= totalPaginas; i++) {
+
+            const boton = document.createElement("button");
+
+            boton.textContent = i;
+            boton.className = "page-button";
+
+            if (i === paginaActual) {
+                boton.classList.add("active");
+            }
+
+            boton.onclick = function () {
+                mostrarPagina(i);
+            };
+
+            contenedorPaginas.appendChild(boton);
+        }
+
+        // BOTÓN SIGUIENTE
+        const siguiente = document.createElement("button");
+
+        siguiente.textContent = "Siguiente";
+        siguiente.className = "page-button";
+        siguiente.disabled = paginaActual === totalPaginas;
+
+        siguiente.onclick = function () {
+            mostrarPagina(paginaActual + 1);
+        };
+
+        contenedorPaginas.appendChild(siguiente);
+    }
+
+    // INICIAR PAGINACIÓN
+    mostrarPagina(1);
+
+</script>
 
 </body>
 </html>
