@@ -20,7 +20,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIA | Panel del estudiante</title>
+    <title>SIA | Panel del Administrador</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/Public/css/dashboard_1.css">
 </head>
 <body>
@@ -57,7 +57,7 @@
             <div class="sidebar-footer">
                 <span class="status-dot"></span>
                 Portal académico
-                <small>Acceso de estudiante</small>
+                <small>Acceso de Administrador</small>
             </div>
         </aside>
 
@@ -66,13 +66,14 @@
             <header class="topbar">
                 <div>
                     <p class="eyebrow">PORTAL ACADÉMICO</p>
-                    <h1>Panel de estudiante</h1>
+                    <h1>Panel de Administrador</h1>
                 </div>
                 <div class="user-profile">
-                    <div class="avatar">MM</div>
+                    <div class="avatar">AD</div>
                     <div class="user-details">
-                        <strong>Mariana Manjarres</strong>
-                        <span>Estudiante · Código 20261001</span>
+                        <strong>Bienvenido(a)</strong>
+                        <span><%= usuarioLogueado.getNombre() %></h1>
+        <a href="<%= request.getContextPath() %></span>
                     </div>
                 </div>
             </header>
