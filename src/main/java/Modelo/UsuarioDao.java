@@ -126,6 +126,29 @@ public int actualizarUsuario(Usuario user) {
 
     return resultado;
 }
+public int cambiarEstado(int id, int estado) {
+
+    int resultado = 0;
+
+    String sql = "UPDATE usuarios SET estado = ? WHERE id = ?";
+
+    try (Connection conn = ConexionDao.ObtenerConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        pstmt.setInt(1, estado);
+        pstmt.setInt(2, id);
+
+        resultado = pstmt.executeUpdate();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+
+    return resultado;
+}
 
     
 }

@@ -40,6 +40,8 @@ private final UsuarioDao usuarioDao = new UsuarioDao();
                 case "actualizar":
                      actualizarUsuario(request, response);
                 break;
+                case "cambiarestado":
+                    cambiarEstado(request,response);
         }
     }
 
@@ -129,6 +131,19 @@ private final UsuarioDao usuarioDao = new UsuarioDao();
     response.sendRedirect(request.getContextPath()
             + "/UsuarioServlet?accion=listar&mensaje="
             + (resultado > 0 ? "actualizado" : "error"));
+    }
+
+    private void cambiarEstado(HttpServletRequest request, HttpServletResponse response) throws IOException {
+         int id = Integer.parseInt(request.getParameter("id"));
+    int estado = Integer.parseInt(request.getParameter("estado"));
+
+    int resultado = usuarioDao.cambiarEstado(id, estado);
+
+    response.sendRedirect(
+        request.getContextPath() +
+        "/UsuarioServlet?accion=listar&mensaje=" +
+        (resultado > 0 ? "estado" : "error")
+    );
     }
 
 }
