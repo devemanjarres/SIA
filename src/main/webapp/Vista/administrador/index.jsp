@@ -65,7 +65,7 @@
             </a>
 
             <a class="menu-link"
-               href="${pageContext.request.contextPath}/perfil.jsp">
+               href="${pageContext.request.contextPath}/Vista/administrador/perfil.jsp">
 
                 <span class="menu-icon">♙</span>
                 <span>Mi perfil</span>
