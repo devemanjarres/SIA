@@ -92,7 +92,7 @@ public class Login extends HttpServlet {
             // Redirigir según el rol
             switch (usuarioValidado.getRol()) {
                 case 1: // accede a la interfaz de Administrador en la cual tiene diversos permisos de acceso
-                    response.sendRedirect(request.getContextPath() + "/Vista/admin/index.jsp");
+                    response.sendRedirect(request.getContextPath() + "/Vista/administrador/index.jsp");
                     break;
                 case 2: // Estudiante
                     response.sendRedirect(request.getContextPath() + "/Vista/Estudiante/index.jsp");
