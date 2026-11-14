@@ -83,18 +83,27 @@ private final UsuarioDao usuarioDao = new UsuarioDao();
     }// </editor-fold>
 
     private void NuevaCuentaUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        Usuario users = new Usuario();
-        users.setNombre(request.getParameter("nombre"));
-        users.setUsuario(request.getParameter("usuario"));
-        users.setCorreo(request.getParameter("correo"));
-        users.setClave(request.getParameter("clave"));
-        users.setRol(Integer.parseInt(request.getParameter("rol")));
-        int result = usuarioDao.NuevaCuenta(users);
-        if(result >0){
-            response.sendRedirect("index.jsp?estado=registrado");
-        }else{
-            response.sendRedirect(request.getContextPath()+ "/Public/web/register.jsp?error=registro");
-        }
+         Usuario users = new Usuario();
+
+    users.setNombre(request.getParameter("nombre"));
+    users.setUsuario(request.getParameter("usuario"));
+    users.setCorreo(request.getParameter("correo"));
+    users.setClave(request.getParameter("clave"));
+    users.setRol(Integer.parseInt(request.getParameter("rol")));
+
+    int resultado = usuarioDao.NuevaCuenta(users);
+
+    if (resultado > 0) {
+        response.sendRedirect(
+            request.getContextPath() +
+            "/UsuarioServlet?accion=listar&mensaje=creado"
+        );
+    } else {
+        response.sendRedirect(
+            request.getContextPath() +
+            "/UsuarioServlet?accion=listar&mensaje=error"
+        );
+    }
     }
 
     private void listarUsuarios(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
