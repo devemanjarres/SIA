@@ -10,24 +10,33 @@ package Modelo;
  */
 public class Usuario {
     // Declaración de variables
+    private int estado;
     private int id;
     private String nombre;
     private String usuario;
     private String clave;
     private String correo;
     private int rol;
-    
-    // creamos dos constructores y uno vacio y otro normal 
-    public Usuario(){
+
+    public Usuario() {
     }
 
-    public Usuario(int id, String nombre, String usuario, String clave, String correo, int rol) {
+    public Usuario(int estado, int id, String nombre, String usuario, String clave, String correo, int rol) {
+        this.estado = estado;
         this.id = id;
         this.nombre = nombre;
         this.usuario = usuario;
         this.clave = clave;
         this.correo = correo;
         this.rol = rol;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     public int getId() {
@@ -77,7 +86,8 @@ public class Usuario {
     public void setRol(int rol) {
         this.rol = rol;
     }
-
+    
+ 
   
     
 }

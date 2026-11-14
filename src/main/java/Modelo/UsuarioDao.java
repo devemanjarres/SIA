@@ -87,6 +87,7 @@ public class UsuarioDao {
             user.setUsuario(rs.getString("usuario"));
             user.setCorreo(rs.getString("correo"));
             user.setRol(rs.getInt("rol"));
+            user.setEstado(rs.getInt("estado"));
 
             lista.add(user);
         }
