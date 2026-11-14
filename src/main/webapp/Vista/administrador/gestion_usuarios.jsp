@@ -498,8 +498,98 @@
 
     // INICIAR PAGINACIÓN
     mostrarPagina(1);
+    
+    function abrirModal() {
+    document.getElementById("modalCrearUsuario").style.display = "flex";
+}
+
+function cerrarModal() {
+    document.getElementById("modalCrearUsuario").style.display = "none";
+}
+
+// Cerrar al hacer clic fuera de la ventana
+window.onclick = function(event) {
+    const modal = document.getElementById("modalCrearUsuario");
+
+    if (event.target === modal) {
+        cerrarModal();
+    }
+};
 
 </script>
+
+<!-- MODAL CREAR USUARIO -->
+<div id="modalCrearUsuario" class="modal">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <div>
+                <h2>Crear nuevo usuario</h2>
+                <p>Completa los datos para registrar una cuenta.</p>
+            </div>
+
+            <button type="button" class="btn-close"
+                    onclick="cerrarModal()">&times;</button>
+        </div>
+
+        <form action="${pageContext.request.contextPath}/UsuarioServlet"
+              method="POST">
+
+            <input type="hidden" name="accion" value="nuevacuenta">
+
+            <div class="form-group">
+                <label>Nombre completo</label>
+                <input type="text" name="nombre"
+                       placeholder="Ingrese el nombre completo"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Nombre de usuario</label>
+                <input type="text" name="usuario"
+                       placeholder="Ingrese el usuario"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" name="correo"
+                       placeholder="correo@ejemplo.com"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" name="clave"
+                       placeholder="Ingrese una contraseña"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Rol del usuario</label>
+                <select name="rol" required>
+                    <option value="">Seleccione un rol</option>
+                    <option value="1">Administrador</option>
+                    <option value="2">Estudiante</option>
+                    <option value="3">Docente</option>
+                    <option value="4">Funcionario</option>
+                </select>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel"
+                        onclick="cerrarModal()">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="btn-save">
+                    Crear cuenta
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
 
 </body>
 </html>
