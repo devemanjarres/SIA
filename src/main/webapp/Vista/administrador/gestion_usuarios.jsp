@@ -162,6 +162,10 @@
                 <span>ADMINISTRACIÓN DE CUENTAS</span>
                 <h2>Usuarios registrados</h2>
                 <p>Consulta, actualiza y administra las cuentas del sistema.</p>
+                 <button type="button" class="btn-create" onclick="abrirModal()">
+        <i class="fas fa-user-plus"></i>
+        Crear usuario
+    </button>
             </div>
         </section>
 
